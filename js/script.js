@@ -44,12 +44,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
 
-    const deadline = '2021-03-12';
+    const deadline = '2021-03-13';
 
     function getTimeRemaining(endtime) { //функция которая определяет разницу между deadline и нашем временем
         //задача функции получить разницу между данными
-        const t = Date.parse(endtime) - Date.parse(new Date()), // техническая переменная (разницу в миллисекундах надо превратить в кол-во дней, часов, минут и секунд)
-        // мы берём кол-во секунд * 60 и получаем кол-во милсек в одной минуте дальше * 60 и получаем милсек в 1 часе и * 24 часа, таким образом мы получаем сколько милсек в 1 сутках
+
+        // техническая переменная (разницу в миллисекундах надо превратить в кол-во дней, часов, минут и секунд)
+        // мы берём кол-во секунд * 60 и получаем кол-во милсек в одной минуте
+        //  дальше * 60 и получаем милсек в 1 часе и * 24 часа, 
+        // таким образом мы получаем сколько милсек в 1 сутках
+        const t = Date.parse(endtime) - Date.parse(new Date()), 
               days = Math.floor(t / (1000 * 60 * 60 * 24)), // floor - округление до ближайшего целого
               hours = Math.floor((t / (1000 * 60 * 60) % 24)),
               minutes = Math.floor((t / 1000 / 60) % 60),
@@ -90,13 +94,12 @@ window.addEventListener('DOMContentLoaded', () => {
                minutes = timer.querySelector('#minutes'),
                seconds = timer.querySelector('#seconds'),
                timeInterval = setInterval(updateClock, 1000),
-               textDays = document.querySelector('text__days'),
-               textHours = document.querySelector('text__hours'),
-               textMinutes = document.querySelector('text__minutes'),
-               textSeconds = document.querySelector('text__seconds');
+               textDays = document.querySelector('#text__days'),
+               textHours = document.querySelector('#text__hours'),
+               textMinutes = document.querySelector('#text__minutes'),
+               textSeconds = document.querySelector('#text__seconds');
         
         updateClock(); 
-
         function updateClock() {
             const t = getTimeRemaining(endtime);
 
@@ -108,7 +111,37 @@ window.addEventListener('DOMContentLoaded', () => {
             if (t.total <= 0) {
                 clearInterval(timeInterval);
             }
+
+            function daysCounter(number) {
+                let result = ((((number % 100) >= 11 && number <= 19) || (number = number % 10) >= 5 || number == 0) ? 
+                textDays.innerHTML = ('Дней') : (number == 1 ? textDays.innerHTML = ('День') 
+                : textDays.innerHTML = ('Дня')));
+            }
+            function hoursCounter(number) {
+                let result = ((((number % 100) >= 11 && number <= 19) || (number = number % 10) >= 5 || number == 0) ? 
+                textHours.innerHTML = ('Часов') : (number == 1 ? textHours.innerHTML = ('Час') 
+                : textHours.innerHTML = ('Часа')));
+            }
+    
+            function minutesCounter(number) {
+                let result = ((((number % 100) >= 11 && number <= 19) || (number = number % 10) >= 5 || number == 0) ? 
+                textMinutes.innerHTML = ('Минут') : (number == 1 ? textMinutes.innerHTML = ('Минута') 
+                : textMinutes.innerHTML = ('Минуты')));
+            }
+    
+            function secondsCounter(number) {
+                let result = ((((number % 100) >= 11 && number <= 19) || (number = number % 10) >= 5 || number == 0) ? 
+                textSeconds.innerHTML = ('Секунд') : (number == 1 ? textSeconds.innerHTML = ('Секунда') 
+                : textSeconds.innerHTML = ('Секунды')));
+            }
+            
+            daysCounter(t.days);
+            hoursCounter(t.hours);
+            minutesCounter(t.minutes);
+            secondsCounter(t.seconds);
         }
+
+        
     }
 
     setClock('.timer', deadline);
