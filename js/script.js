@@ -44,22 +44,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
 
-    const deadline = '2021-03-15';
+    const deadline = '2021-03-12';
 
-    function getTimeRemaining(endtime) {
-        const t = Date.parse(endtime) - Date.parse(new Date()),
-              days = Math.floor(t / (1000 * 60 * 60 * 24)),
+    function getTimeRemaining(endtime) { //функция которая определяет разницу между deadline и нашем временем
+        //задача функции получить разницу между данными
+        const t = Date.parse(endtime) - Date.parse(new Date()), // техническая переменная (разницу в миллисекундах надо превратить в кол-во дней, часов, минут и секунд)
+        // мы берём кол-во секунд * 60 и получаем кол-во милсек в одной минуте дальше * 60 и получаем милсек в 1 часе и * 24 часа, таким образом мы получаем сколько милсек в 1 сутках
+              days = Math.floor(t / (1000 * 60 * 60 * 24)), // floor - округление до ближайшего целого
               hours = Math.floor((t / (1000 * 60 * 60) % 24)),
               minutes = Math.floor((t / 1000 / 60) % 60),
               seconds = Math.floor((t / 1000) % 60);
 
-        return { // возвращаем объект из функции
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
+        if (t >= 0) {
+            return { // возвращаем объект из функции
+                'total': t,
+                'days': days,
+                'hours': hours,
+                'minutes': minutes,
+                'seconds': seconds
+            };
+        } else {
+            return {
+                'total': 0,
+                'days': 0,
+                'hours': 0,
+                'minutes': 0,
+                'seconds': 0
+            };
+        }
+        
     }
 
     function getZero(num) {
@@ -76,7 +89,11 @@ window.addEventListener('DOMContentLoaded', () => {
                hours = timer.querySelector('#hours'),
                minutes = timer.querySelector('#minutes'),
                seconds = timer.querySelector('#seconds'),
-               timeInterval = setInterval(updateClock, 1000);
+               timeInterval = setInterval(updateClock, 1000),
+               textDays = document.querySelector('text__days'),
+               textHours = document.querySelector('text__hours'),
+               textMinutes = document.querySelector('text__minutes'),
+               textSeconds = document.querySelector('text__seconds');
         
         updateClock(); 
 
