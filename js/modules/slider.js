@@ -1,14 +1,14 @@
-function slider() {
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) { // деструктуризация
     // Slider
 
-    const slides = document.querySelectorAll('.offer__slide'),
-          slider = document.querySelector('.offer__slider'),
-          prev = document.querySelector('.offer__slider-prev'),
-          next = document.querySelector('.offer__slider-next'),
-          total = document.querySelector('#total'),
-          current = document.querySelector('#current'),
-          slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-          slidesFiled = document.querySelector('.offer__slider-inner'),
+    const slides = document.querySelectorAll(slide),
+          slider = document.querySelector(container),
+          prev = document.querySelector(prevArrow),
+          next = document.querySelector(nextArrow),
+          total = document.querySelector(totalCounter),
+          current = document.querySelector(currentCounter),
+          slidesWrapper = document.querySelector(wrapper),
+          slidesField = document.querySelector(field),
           width = window.getComputedStyle(slidesWrapper).width; // объект со стилями и мы из него вытащили width
 
     let slideIndex = 1; 
@@ -23,9 +23,9 @@ function slider() {
 
     }
 
-    slidesFiled.style.width = 100 * slides.length + '%';
-    slidesFiled.style.display = 'flex';
-    slidesFiled.style.transition = '0.5s all';
+    slidesField.style.width = 100 * slides.length + '%';
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = '0.5s all';
 
     slidesWrapper.style.overflow = 'hidden';
 
@@ -86,7 +86,7 @@ function slider() {
         }
 
         // если нам надо сдвинуть элеменрт влево (используем отрицательные значения!)
-        slidesFiled.style.transform = `translateX(-${offset}px)`;
+        slidesField.style.transform = `translateX(-${offset}px)`;
 
         if (slideIndex == slides.length) {
             slideIndex = 1;
@@ -111,7 +111,7 @@ function slider() {
             offset -= +width.replace(/\D/g, '');
         }
 
-        slidesFiled.style.transform = `translateX(-${offset}px)`;
+        slidesField.style.transform = `translateX(-${offset}px)`;
         
         if (slideIndex == 1) {
             slideIndex = slides.length;
@@ -136,7 +136,7 @@ function slider() {
             slideIndex = slideTo;
             offset = +width.replace(/\D/g, '') * (slideTo -1);
 
-            slidesFiled.style.transform = `translateX(-${offset}px)`;
+            slidesField.style.transform = `translateX(-${offset}px)`;
 
             dots.forEach( dot => dot.style.opacity = '.5');
             dots[slideIndex -1].style.opacity = 1;
@@ -150,4 +150,4 @@ function slider() {
     });
 }
 
-module.exports = slider;
+export default slider;
